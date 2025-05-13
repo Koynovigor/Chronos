@@ -1,0 +1,68 @@
+build:
+  maxIssues: 0
+  weights:
+    complexity: 2
+    LongParameterList: 1
+    style: 1
+
+processors:
+  active: true
+  exclude:
+    - 'FunctionCountProcessor'
+    - 'PropertyCountProcessor'
+
+config:
+  validation: true
+
+style:
+  MagicNumber:
+    active: true
+    ignoreNumbers: [-1, 0, 1, 2]
+    ignoreHashCodeFunction: true
+    ignorePropertyDeclaration: true
+
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+
+  WildcardImport:
+    active: true
+    excludeImports: ['java.util.*', 'kotlinx.coroutines.*']
+
+  OptionalUnit:
+    active: true
+
+  FunctionNaming:
+    active: true
+    functionPattern: '^[a-z][a-zA-Z0-9]*$'
+
+naming:
+  ClassNaming:
+    active: true
+    classPattern: '^[A-Z][a-zA-Z0-9]*$'
+
+  VariableNaming:
+    active: true
+    variablePattern: '^[a-z][A-Za-z0-9]*$'
+    excludes: ['EXTRA_.*']
+
+comments:
+  CommentOverPrivateFunction:
+    active: false
+
+performance:
+  SpreadOperator:
+    active: true
+
+potential-bugs:
+  UnsafeCallOnNullableType:
+    active: true
+
+complexity:
+  LongMethod:
+    active: true
+    threshold: 50
+
+  NestedBlockDepth:
+    active: true
+    threshold: 4
