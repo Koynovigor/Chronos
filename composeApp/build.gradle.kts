@@ -15,6 +15,7 @@ kotlin {
         languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
         languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
         languageSettings.optIn("androidx.compose.animation.ExperimentalAnimationApi")
+        languageSettings.optIn("kotlin.time.ExperimentalTime")
     }
 
     androidTarget {
@@ -31,6 +32,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            freeCompilerArgs += "-Xbinary=bundleId=org.l3on1kl.project.Chronos"
         }
     }
 
@@ -46,16 +48,51 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.voyager.tab.navigator)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenmodel)
+            implementation(libs.material.icons.extended)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+        }
+    }
+}
+
+tasks.register("assembleXCFramework") {
+    dependsOn(
+        "linkDebugFrameworkIosSimulatorArm64",
+        "linkDebugFrameworkIosX64",
+        "linkDebugFrameworkIosArm64"
+    )
+}
+
+tasks.register("syncFramework") {
+    dependsOn("assembleXCFramework")
+
+    doLast {
+        val outputDir = layout.buildDirectory.get().asFile.resolve("xcode-frameworks/Debug")
+        val srcDirs = listOf(
+            layout.buildDirectory.get().asFile.resolve("bin/iosArm64/debugFramework"),
+            layout.buildDirectory.get().asFile.resolve("bin/iosSimulatorArm64/debugFramework"),
+            layout.buildDirectory.get().asFile.resolve("bin/iosX64/debugFramework")
+        )
+
+        outputDir.mkdirs()
+
+        srcDirs.forEach { src ->
+            val framework = src.resolve("ComposeApp.framework")
+            if (framework.exists()) {
+                framework.copyRecursively(outputDir.resolve(framework.name), overwrite = true)
+            }
         }
     }
 }
