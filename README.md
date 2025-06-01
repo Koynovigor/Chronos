@@ -1,6 +1,7 @@
 # Chronos 🕒
 
 **Chronos** — это кроссплатформенное приложение-планнер, написанное на **Kotlin Multiplatform** с использованием **JetBrains Compose Multiplatform**, поддерживающее Android, iOS и Desktop.
+Сыылка на ноушен https://l3on1kl.notion.site/Chronos-working-title-1e75f5a32b9f806db152c837eab435af
 
 ## ✨ Возможности
 
