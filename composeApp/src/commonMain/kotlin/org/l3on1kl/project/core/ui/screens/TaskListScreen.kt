@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,10 +29,14 @@ fun TaskListScreen() {
     Scaffold(
         bottomBar = { BottomBar() },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* TODO: AddTaskScreen */ }) {
-                Text("+")
+            FloatingActionButton(
+                onClick = { /* TODO: показать экран создания задачи */ },
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Создать задачу")
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(tasks) { TaskCard(it) }

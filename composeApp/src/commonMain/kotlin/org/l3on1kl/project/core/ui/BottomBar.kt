@@ -1,5 +1,6 @@
 package org.l3on1kl.project.core.ui
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.BarChart
@@ -10,6 +11,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 
@@ -33,6 +35,8 @@ fun BottomBar() {
             label = { Text("Календарь") }
         )
 
+        Spacer(modifier = Modifier.weight(1f, fill = true))
+
         NavigationBarItem(
             selected = current.key == "Статистика",
             onClick = { navigator.push(placeholderScreen("Статистика")) },
@@ -48,4 +52,3 @@ fun BottomBar() {
         )
     }
 }
-
