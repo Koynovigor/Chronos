@@ -2,7 +2,6 @@ package org.l3on1kl.project.core.ui.model
 
 import kotlinx.datetime.LocalDateTime
 
-
 enum class TaskStatus { ACTIVE, IN_PROGRESS, DONE }
 
 data class Task(
@@ -10,5 +9,5 @@ data class Task(
     val title: String,
     val description: String,
     val due: LocalDateTime,
-    val status: TaskStatus
+    val status: TaskStatus,
 )

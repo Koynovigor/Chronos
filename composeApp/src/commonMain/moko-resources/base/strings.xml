@@ -1,0 +1,7 @@
+<resources>
+    <string name="tasks">Задачи</string>
+    <string name="calendar">Календарь</string>
+    <string name="statistics">Статистика</string>
+    <string name="settings">Настройки</string>
+    <string name="create_task">Создать задачу</string>
+</resources>

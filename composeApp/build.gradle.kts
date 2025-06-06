@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.moko.resources)
 }
 
 kotlin {
@@ -27,12 +28,12 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            freeCompilerArgs += "-Xbinary=bundleId=org.l3on1kl.project.Chronos"
+            freeCompilerArgs += "-Xbinary=bundleId=org.l3on1kl.project.ComposeApp"
         }
     }
 
@@ -59,6 +60,9 @@ kotlin {
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenmodel)
             implementation(libs.material.icons.extended)
+            implementation(libs.composables.core)
+            implementation(libs.moko.resources)
+            implementation(libs.moko.resources.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -71,7 +75,7 @@ tasks.register("assembleXCFramework") {
     dependsOn(
         "linkDebugFrameworkIosSimulatorArm64",
         "linkDebugFrameworkIosX64",
-        "linkDebugFrameworkIosArm64"
+        "linkDebugFrameworkIosArm64",
     )
 }
 
@@ -80,11 +84,12 @@ tasks.register("syncFramework") {
 
     doLast {
         val outputDir = layout.buildDirectory.get().asFile.resolve("xcode-frameworks/Debug")
-        val srcDirs = listOf(
-            layout.buildDirectory.get().asFile.resolve("bin/iosArm64/debugFramework"),
-            layout.buildDirectory.get().asFile.resolve("bin/iosSimulatorArm64/debugFramework"),
-            layout.buildDirectory.get().asFile.resolve("bin/iosX64/debugFramework")
-        )
+        val srcDirs =
+            listOf(
+                layout.buildDirectory.get().asFile.resolve("bin/iosArm64/debugFramework"),
+                layout.buildDirectory.get().asFile.resolve("bin/iosSimulatorArm64/debugFramework"),
+                layout.buildDirectory.get().asFile.resolve("bin/iosX64/debugFramework"),
+            )
 
         outputDir.mkdirs()
 
@@ -157,4 +162,8 @@ ktlint {
 
 tasks.register("ciCheck") {
     dependsOn("build", "allTests", "detekt", "ktlintCheck")
+}
+
+multiplatformResources {
+    resourcesPackage.set("org.l3on1kl.project")
 }
