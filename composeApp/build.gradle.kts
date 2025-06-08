@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.moko.resources)
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
@@ -34,6 +34,8 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             freeCompilerArgs += "-Xbinary=bundleId=org.l3on1kl.project.ComposeApp"
+
+            export(libs.moko.resources)
         }
     }
 
@@ -61,8 +63,9 @@ kotlin {
             implementation(libs.voyager.screenmodel)
             implementation(libs.material.icons.extended)
             implementation(libs.composables.core)
-            implementation(libs.moko.resources)
-            implementation(libs.moko.resources.compose)
+            api(libs.moko.resources)
+            api(libs.moko.resources.compose)
+            implementation(libs.multiplatform.settings.no.arg)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

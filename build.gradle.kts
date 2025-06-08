@@ -10,3 +10,13 @@ plugins {
     alias(libs.plugins.ktlint) apply false
 
 }
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        val mokoResourceVersion = libs.versions.moko.resources.get()
+        classpath("dev.icerock.moko:resources-generator:$mokoResourceVersion")
+    }
+}
