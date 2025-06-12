@@ -5,13 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.navigator.Navigator
+import org.l3on1kl.project.core.db.DatabaseFactory
 import org.l3on1kl.project.core.ui.TasksNavScreen
 import org.l3on1kl.project.core.ui.theme.AppTheme
 import org.l3on1kl.project.core.ui.theme.ChronosTheme
 import org.l3on1kl.project.core.ui.theme.ThemeRepository
 
 @Composable
-fun ChronosApp(themeRepository: ThemeRepository) {
+fun ChronosApp(
+    themeRepository: ThemeRepository,
+    databaseFactory: DatabaseFactory
+) {
     val themeState = remember { mutableStateOf(themeRepository.getTheme()) }
 
     val isDarkTheme = when (themeState.value) {
@@ -26,7 +30,8 @@ fun ChronosApp(themeRepository: ThemeRepository) {
                 onThemeChange = { newTheme ->
                     themeRepository.setTheme(newTheme)
                     themeState.value = newTheme
-                }
+                },
+                databaseFactory = databaseFactory
             )
         )
     }

@@ -1,0 +1,17 @@
+CREATE TABLE TaskEntity (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    due TEXT NOT NULL,
+    status TEXT NOT NULL
+);
+
+selectAllTasks:
+SELECT * FROM TaskEntity;
+
+insertTask:
+INSERT INTO TaskEntity(id, title, description, due, status)
+VALUES (?, ?, ?, ?, ?);
+
+deleteTask:
+DELETE FROM TaskEntity WHERE id = ?;

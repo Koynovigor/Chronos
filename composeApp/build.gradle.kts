@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.sqlDelight)
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -32,10 +33,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
-            freeCompilerArgs += "-Xbinary=bundleId=org.l3on1kl.project.ComposeApp"
-
-            export(libs.moko.resources)
+            linkerOpts("-lsqlite3")
         }
     }
 
@@ -47,6 +45,11 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.sqldelight.android.driver)
+        }
+        iosMain.dependencies {
+            implementation(libs.sqldelight.native.driver)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -66,10 +69,15 @@ kotlin {
             api(libs.moko.resources)
             api(libs.moko.resources.compose)
             implementation(libs.multiplatform.settings.no.arg)
+
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines.extensions)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            implementation(libs.sqldelight.sqlite.driver)
         }
     }
 }
@@ -169,4 +177,12 @@ tasks.register("ciCheck") {
 
 multiplatformResources {
     resourcesPackage.set("org.l3on1kl.project")
+}
+
+sqldelight {
+    databases {
+        create("ChronosDatabase") {
+            packageName.set("org.l3on1kl.project.core.db")
+        }
+    }
 }

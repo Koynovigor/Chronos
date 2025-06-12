@@ -33,11 +33,13 @@ import org.l3on1kl.project.core.ui.theme.ChronosTheme
 @Composable
 fun BottomBar(
     currentTab: ChronosTab,
-    onTabClick: (ChronosTab) -> Unit
+    onTabClick: (ChronosTab) -> Unit,
+    onAddClick: () -> Unit
 ) {
     BottomBarContent(
         currentTab = currentTab,
-        onTabClick = onTabClick
+        onTabClick = onTabClick,
+        onAddClick = onAddClick
     )
 }
 
@@ -45,7 +47,8 @@ fun BottomBar(
 @Composable
 fun BottomBarContent(
     currentTab: ChronosTab,
-    onTabClick: (ChronosTab) -> Unit
+    onTabClick: (ChronosTab) -> Unit,
+    onAddClick: () -> Unit
 ) {
     Box {
         Row(
@@ -106,7 +109,7 @@ fun BottomBarContent(
                     .clip(CircleShape)
                     .background(ChronosTheme.colors.primary)
                     .clickable {
-                        // TODO: открыть экран новой задачи
+                        onAddClick()
                     },
             contentAlignment = Alignment.Center,
         ) {
